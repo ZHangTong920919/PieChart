@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,12 +17,13 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     private ViewPager vpMain;
     private ArrayList<MonthBean> mData;
 
     private Button mBtnPre, mBtnNext;
+    private TextView mTvCurrent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnPre.setOnClickListener(this);
         mBtnNext = findViewById(R.id.btn_next);
         mBtnNext.setOnClickListener(this);
+        mTvCurrent = findViewById(R.id.tv_current);
+
         try {
             initData();
         } catch (JSONException e) {
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return mData.size();
             }
         });
+        vpMain.addOnPageChangeListener(this);
         upDateJumpText();
     }
 
@@ -93,9 +98,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             mBtnNext.setText("没有了！");
         }
+        mTvCurrent.setText(mData.get(vpMain.getCurrentItem()).getDate());
     }
 
     private String handlerText(String date) {
         return date.substring(date.indexOf("年") + 1);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        upDateJumpText();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

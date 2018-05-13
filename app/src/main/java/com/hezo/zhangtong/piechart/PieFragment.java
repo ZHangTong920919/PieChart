@@ -71,6 +71,7 @@ public class PieFragment extends Fragment implements OnChartValueSelectedListene
         mChart.getDescription().setEnabled(false);
         mChart.setRotationEnabled(false);
         mChart.setOnChartValueSelectedListener(this);
+        this.onValueSelected(null, new Highlight(0, 0, 0));
     }
 
     private CharSequence getCenterText() {
@@ -100,7 +101,6 @@ public class PieFragment extends Fragment implements OnChartValueSelectedListene
         PieData pieData = new PieData(dataSet);
         pieData.setValueTextSize(22);
         mChart.setData(pieData);
-
     }
 
     @Override
